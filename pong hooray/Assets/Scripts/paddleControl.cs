@@ -8,6 +8,7 @@ public class paddleControl : MonoBehaviour
     public float moveSpeed;
     private float playerInput;
     private Rigidbody2D _rb;
+    public float maxDistanceAllowed;
 
     // Start is called before the first frame update
     void Start()
