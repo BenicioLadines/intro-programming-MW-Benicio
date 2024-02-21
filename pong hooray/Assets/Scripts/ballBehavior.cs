@@ -8,16 +8,33 @@ public class ballBehavior : MonoBehaviour
     public float moveForce;
     private float xDirection;
     private float yDirection;
+    private bool inPlay;
+    GameManager gameManager;
 
     // Start is called before the first frame update
     void Start()
     {
+        gameManager = GameObject.FindObjectOfType<GameManager>();
         _rb = GetComponent<Rigidbody2D>();
+        Launch();
+    }
+
+    private void Update()
+    {
+        if (!inPlay)
+        {
+            transform.position = Vector3.zero;
+            Launch();
+        }
+    }
+
+    void Launch()
+    {
         Vector3 direction = new Vector3(0, 0, 0);
         xDirection = Random.Range(0, 2);
         yDirection = Random.Range(0, 2);
 
-        if(xDirection == 0)
+        if (xDirection == 0)
         {
             direction.x = -1;
         }
@@ -26,7 +43,7 @@ public class ballBehavior : MonoBehaviour
             direction.x = 1;
         }
 
-        if(yDirection == 0)
+        if (yDirection == 0)
         {
             direction.y = -1;
         }
@@ -35,14 +52,28 @@ public class ballBehavior : MonoBehaviour
             direction.y = 1;
         }
 
-        _rb.AddForce(direction * moveForce, ForceMode2D.Impulse);
+        Debug.Log(direction.ToString());
+        _rb.velocity = direction.normalized * moveForce;
+        inPlay = true;
     }
-    /*
-     * ／l、
-     （ﾟ､ ｡７
-      l、ﾞ~ヽ
-      じしf_,)ノ MEOWMEOWMEOWMEOWMEOWMEOWME
-     * 
-     * */
-    
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+
+
+        if(collision.name == "Right Wall")
+        {
+            Debug.Log("right");
+            gameManager.Player2Scored();
+        }
+
+        if(collision.name == "Left Wall")
+        {
+            Debug.Log("left");
+            gameManager.Player1Scored();
+        }
+
+        inPlay = false;
+    }
+
 }
