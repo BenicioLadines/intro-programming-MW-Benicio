@@ -64,13 +64,13 @@ public class ballBehavior : MonoBehaviour
         if(collision.name == "Right Wall")
         {
             Debug.Log("right");
-            gameManager.Player2Scored();
+            gameManager.Player1Scored();
         }
 
         if(collision.name == "Left Wall")
         {
             Debug.Log("left");
-            gameManager.Player1Scored();
+            gameManager.Player2Scored();
         }
 
         inPlay = false;

@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 2452311}
   - component: {fileID: 2452310}
   m_Layer: 5
-  m_Name: Text (TMP) (1)
+  m_Name: p2Score
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -338,7 +338,7 @@ GameObject:
   - component: {fileID: 424064421}
   - component: {fileID: 424064420}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: p1Score
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1172,7 +1172,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  maxDistanceAllowed: 5
+  maxDistanceAllowed: 4
   firstPlayer: 1
 --- !u!212 &1316761909
 SpriteRenderer:
@@ -1591,7 +1591,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  maxDistanceAllowed: 5
+  maxDistanceAllowed: 4
   firstPlayer: 0
 --- !u!212 &2145221642
 SpriteRenderer:
