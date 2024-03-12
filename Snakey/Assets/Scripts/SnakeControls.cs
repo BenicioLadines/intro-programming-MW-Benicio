@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 public class SnakeControls : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class SnakeControls : MonoBehaviour
     bool ateThisTick = false;
     public GameObject tailPrefab;
     public float tickTime;
+    public float tickTimeScale;
     float tickTimer;
     Vector2 facing;
     Rigidbody2D rb;
@@ -25,24 +27,7 @@ public class SnakeControls : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        tickTimer += Time.deltaTime;
-
-        if (Input.GetAxisRaw("Horizontal") > 0)
-        {
-            facing = Vector2.right;
-        }
-        else if (Input.GetAxis("Horizontal") < 0)
-        {
-            facing = Vector2.left;
-        }
-        else if (Input.GetAxisRaw("Vertical") > 0)
-        {
-            facing = Vector2.up;
-        }
-        else if (Input.GetAxisRaw("Vertical") < 0)
-        {
-            facing = Vector2.down;
-        }
+        tickTimer += Time.fixedDeltaTime * tickTimeScale;
 
         if (tickTimer > tickTime)
         {
@@ -50,12 +35,36 @@ public class SnakeControls : MonoBehaviour
             tickTimer = 0;
         }
 
+        if (Mathf.Abs(facing.x) > 0)
+        {
+            if (Input.GetButtonDown("up"))
+            {
+                facing = Vector2.up;
+            }
+            else if (Input.GetButtonDown("down"))
+            {
+                facing = Vector2.down;
+            }
+        }
+        else
+        {
+            if (Input.GetButtonDown("right"))
+            {
+                facing = Vector2.right;
+            }
+            else if (Input.GetButtonDown("left"))
+            {
+                facing = Vector2.left;
+            }
+        }
+
 
     }
 
     void Move()
     {
-        Vector2 gap = transform.position;
+        
+        Vector2 gap = rb.position;
         
 
         rb.position += facing;
@@ -79,8 +88,27 @@ public class SnakeControls : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        gameManager.score++;
-        Destroy(collision.gameObject);
-        ateThisTick = true;
+
+        if(collision.tag == "Player")
+        {
+            tickTimeScale = 0;
+        }
+
+        if(collision.tag == "fruit")
+        {
+            gameManager.score++;
+            Destroy(collision.gameObject);
+            ateThisTick = true;
+        }
+
+        
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == "Player")
+        {
+            tickTimeScale = 0;
+        }
     }
 }
