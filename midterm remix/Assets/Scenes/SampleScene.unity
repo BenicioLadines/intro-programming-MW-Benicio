@@ -355,7 +355,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fa8eba46c3afc045b26416eedc54ae1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tickTime: 0.5
+  tickTime: 1
   tickEvent:
     m_PersistentCalls:
       m_Calls: []
