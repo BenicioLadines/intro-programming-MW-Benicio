@@ -12,7 +12,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] float tickTime;
     float tickTimer;
     public UnityEvent tickEvent;
-    
+    public int verticalBound;
+    public int horizontalBound;
+
 
     // Start is called before the first frame update
     void Start()
