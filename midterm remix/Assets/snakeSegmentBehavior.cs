@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class snakeSegmentBehavior : MonoBehaviour
 {
+    //reference to snake's head
     SnakeHeadBehavior head;
 
     private void Start()
     {
-        //gets component from parent, was the most convenient way I could think of
-        //to store the segments locally per player
+        //gets component from parent, having the segments be children
+        //was the most convenient way I could think of to store the segments locally per player
         head = GetComponentInParent<SnakeHeadBehavior>();
     }
 
@@ -22,6 +23,7 @@ public class snakeSegmentBehavior : MonoBehaviour
         //determining its place in the list, which is already handled by the head
         if (collision.gameObject.TryGetComponent<BallBehavior>(out BallBehavior ball))
         {
+            //passes a reference of this segment to the head so it can be shrinked off
             head.Shrink(this.transform);
         }
 
@@ -29,6 +31,7 @@ public class snakeSegmentBehavior : MonoBehaviour
         //that came after the one they just bit off
         if(collision.gameObject.TryGetComponent<SnakeHeadBehavior>(out SnakeHeadBehavior snake))
         {
+            //passes a reference of this segment to the head to cut off from it
             head.CutOff(this.transform);
         }
     }
