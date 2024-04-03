@@ -9,11 +9,17 @@ public class PlayerControl : MonoBehaviour
     [SerializeField]float playerSpeed;
     [SerializeField] float jumpPower;
     bool isJumping = false;
+    [SerializeField] int maxHealth;
+    [SerializeField] int currentHealth;
+    HealthBarUI healthBarUI;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        healthBarUI = FindObjectOfType<HealthBarUI>();
+        currentHealth = maxHealth;
+        healthBarUI.SetMaxHealth(maxHealth);
     }
 
     // Update is called once per frame
@@ -21,6 +27,7 @@ public class PlayerControl : MonoBehaviour
     {
         MovePlayer();
         Jump();
+        healthBarUI.SetHealth(currentHealth);
 
     }
 
@@ -55,5 +62,16 @@ public class PlayerControl : MonoBehaviour
         {
             isJumping = false;
         }
+
+        if(collision.gameObject.tag == "Lava")
+        {
+            TakeDamage(2);
+        }
+    }
+
+    public void TakeDamage(int damage)
+    {
+        currentHealth -= damage;
+        healthBarUI.SetHealth(currentHealth);
     }
 }
