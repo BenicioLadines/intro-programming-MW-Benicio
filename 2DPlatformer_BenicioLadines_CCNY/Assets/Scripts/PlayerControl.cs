@@ -12,6 +12,10 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] int maxHealth;
     [SerializeField] int currentHealth;
     HealthBarUI healthBarUI;
+    [SerializeField]GameObject projectile;
+    Transform projectileLaunch;
+    [SerializeField] float shootTime;
+    public float shootCountdown;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +24,8 @@ public class PlayerControl : MonoBehaviour
         healthBarUI = FindObjectOfType<HealthBarUI>();
         currentHealth = maxHealth;
         healthBarUI.SetMaxHealth(maxHealth);
+        projectileLaunch = transform.GetChild(0);
+        shootCountdown = shootTime;
     }
 
     // Update is called once per frame
@@ -27,8 +33,12 @@ public class PlayerControl : MonoBehaviour
     {
         MovePlayer();
         Jump();
+        Attack();
         healthBarUI.SetHealth(currentHealth);
-
+        if(shootCountdown > 0)
+        {
+            shootCountdown -= Time.deltaTime;
+        }
     }
 
     void MovePlayer()
@@ -49,10 +59,19 @@ public class PlayerControl : MonoBehaviour
 
     void Jump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !isJumping)
+        if (Input.GetKeyDown(KeyCode.W) && !isJumping)
         {
             rb.AddForce(Vector3.up * jumpPower);
             isJumping = true;
+        }
+    }
+
+    void Attack()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && shootCountdown <= 0)
+        {
+            Instantiate(projectile,projectileLaunch.position,Quaternion.identity);
+            shootCountdown = shootTime;
         }
     }
 
